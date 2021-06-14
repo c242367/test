@@ -1,1 +1,29 @@
-datads
+{
+    "localfileInputPath": "file:///H:/python/relation/relationship.json",
+    "s3fileInputPath": "s3://lly-edp-landing-us-east-2-dev/enterprisecustomer/eph/analytic/hco/incoming_data/HCO_10k.json",
+    "outputFolderPath": "s3://lly-edp-landing-us-east-2-dev/enterprisecustomer/eph/analytic/hco/processed_data/",
+    "outerFolderPrefix": "hco",
+	"edp_hcp": {
+        "inp_bucket": "lly-edp-landing-us-east-2-dev",
+        "out_bucket": "lly-edp-landing-us-east-2-dev",
+        "inp_location": "enterprisecustomer/eph/analytic/hcp/incoming/ovflase.json",
+        "stg_location": "enterprisecustomer/eph/analytic/hcp/staging/",
+	"out_location": "enterprisecustomer/eph/analytic/hcp/processed/"},
+    "crosswalkcol": ["crosswalks_reltioLoadDate","crosswalks_createDate","crosswalks_sourceTable","crosswalks_value",
+    "crosswalks_updateDate"],
+    "singleattribute":["attributes.ActiveFlag",
+        "attributes.ProcessingDate",
+        "attributes.Rank"
+        
+    ],
+    "nested": {
+        "nestedattribute_specialities":["attributes.Specialities.value.DataValidationStatusCode","attributes.Specialities.value.EffectiveEndDate","attributes.Specialities.value.EffectiveStartDate","attributes.Specialities.value.PriorityRankNumber","attributes.Specialities.value.Specialty","attributes.Specialities.value.SpecialtyType","attributes.Specialities.value.ValidationReasonCode"],
+        "nestedattribute_email":["attributes.Email.value.EffectiveEndDate","attributes.Email.value.EffectiveStartDate","attributes.Email.value.Email","attributes.Email.value.Rank","attributes.Email.value.Type","attributes.Email.value.ValidationReasonCode","attributes.Email.value.ValidationStatusCode"],
+        "nestedattribute_segmentation":["attributes.Segmentation.value.DataValidationStatusCode","attributes.Segmentation.value.EffectiveEndDate","attributes.Segmentation.value.EffectiveStartDate","attributes.Segmentation.value.Segmentation","attributes.Segmentation.value.Type"], 
+        "nestedattribute_website":["attributes.WebsiteURL.value.EffectiveEndDate","attributes.WebsiteURL.value.EffectiveStartDate","attributes.WebsiteURL.value.Rank","attributes.WebsiteURL.value.Type","attributes.WebsiteURL.value.URL","attributes.WebsiteURL.value.ValidationReasonCode","attributes.WebsiteURL.value.ValidationStatusCode"],
+        "nestedattribute_identifier":["attributes.Identifiers.value.ID","attributes.Identifiers.value.Status","attributes.Identifiers.value.Type","attributes.Identifiers.value.MergeDate","attributes.Identifiers.value.DataValidationStatusCode","attributes.Identifiers.value.EffectiveEndDate","attributes.Identifiers.value.EffectiveStartDate","attributes.Identifiers.value.ExpirationDate","attributes.Identifiers.value.PriorityRankNumber","attributes.Identifiers.value.SubType","attributes.Identifiers.value.ValidationreasonCode"],
+        "nestedattribute_phone":["attributes.Phone.value.CountryCode","attributes.Phone.value.EffectiveEndDate","attributes.Phone.value.EffectiveStartDate","attributes.Phone.value.Extension","attributes.Phone.value.Number","attributes.Phone.value.Rank","attributes.Phone.value.Type","attributes.Phone.value.ValidationReasonCode","attributes.Phone.value.ValidationStatusCode"]
+    }
+    
+              
+}
