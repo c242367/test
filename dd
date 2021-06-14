@@ -1,29 +1,346 @@
-{
-    "localfileInputPath": "file:///H:/python/relation/relationship.json",
-    "s3fileInputPath": "s3://lly-edp-landing-us-east-2-dev/enterprisecustomer/eph/analytic/hco/incoming_data/HCO_10k.json",
-    "outputFolderPath": "s3://lly-edp-landing-us-east-2-dev/enterprisecustomer/eph/analytic/hco/processed_data/",
-    "outerFolderPrefix": "hco",
-	"edp_hcp": {
-        "inp_bucket": "lly-edp-landing-us-east-2-dev",
-        "out_bucket": "lly-edp-landing-us-east-2-dev",
-        "inp_location": "enterprisecustomer/eph/analytic/hcp/incoming/ovflase.json",
-        "stg_location": "enterprisecustomer/eph/analytic/hcp/staging/",
-	"out_location": "enterprisecustomer/eph/analytic/hcp/processed/"},
-    "crosswalkcol": ["crosswalks_reltioLoadDate","crosswalks_createDate","crosswalks_sourceTable","crosswalks_value",
-    "crosswalks_updateDate"],
-    "singleattribute":["attributes.ActiveFlag",
-        "attributes.ProcessingDate",
-        "attributes.Rank"
-        
-    ],
-    "nested": {
-        "nestedattribute_specialities":["attributes.Specialities.value.DataValidationStatusCode","attributes.Specialities.value.EffectiveEndDate","attributes.Specialities.value.EffectiveStartDate","attributes.Specialities.value.PriorityRankNumber","attributes.Specialities.value.Specialty","attributes.Specialities.value.SpecialtyType","attributes.Specialities.value.ValidationReasonCode"],
-        "nestedattribute_email":["attributes.Email.value.EffectiveEndDate","attributes.Email.value.EffectiveStartDate","attributes.Email.value.Email","attributes.Email.value.Rank","attributes.Email.value.Type","attributes.Email.value.ValidationReasonCode","attributes.Email.value.ValidationStatusCode"],
-        "nestedattribute_segmentation":["attributes.Segmentation.value.DataValidationStatusCode","attributes.Segmentation.value.EffectiveEndDate","attributes.Segmentation.value.EffectiveStartDate","attributes.Segmentation.value.Segmentation","attributes.Segmentation.value.Type"], 
-        "nestedattribute_website":["attributes.WebsiteURL.value.EffectiveEndDate","attributes.WebsiteURL.value.EffectiveStartDate","attributes.WebsiteURL.value.Rank","attributes.WebsiteURL.value.Type","attributes.WebsiteURL.value.URL","attributes.WebsiteURL.value.ValidationReasonCode","attributes.WebsiteURL.value.ValidationStatusCode"],
-        "nestedattribute_identifier":["attributes.Identifiers.value.ID","attributes.Identifiers.value.Status","attributes.Identifiers.value.Type","attributes.Identifiers.value.MergeDate","attributes.Identifiers.value.DataValidationStatusCode","attributes.Identifiers.value.EffectiveEndDate","attributes.Identifiers.value.EffectiveStartDate","attributes.Identifiers.value.ExpirationDate","attributes.Identifiers.value.PriorityRankNumber","attributes.Identifiers.value.SubType","attributes.Identifiers.value.ValidationreasonCode"],
-        "nestedattribute_phone":["attributes.Phone.value.CountryCode","attributes.Phone.value.EffectiveEndDate","attributes.Phone.value.EffectiveStartDate","attributes.Phone.value.Extension","attributes.Phone.value.Number","attributes.Phone.value.Rank","attributes.Phone.value.Type","attributes.Phone.value.ValidationReasonCode","attributes.Phone.value.ValidationStatusCode"]
-    }
+'''
+Import Libraries
+'''
+import json
+import sys
+from datetime import datetime
+from pyspark.sql import SparkSession
+from pyspark.sql import functions as func
+from pyspark.sql.utils import AnalysisException
+from pyspark.sql.types import StructField, StringType, StructType
+from pyspark.sql import types
+from pyspark.sql import Column
+from pyspark.sql import SQLContext
+
+import boto3
+import pandas as pd
+
+spark = SparkSession.builder.appName('new').getOrCreate()
+sc = spark.sparkContext
+sqlContext = SQLContext(sc)
+sc.setLogLevel("ERROR")
+
+now = datetime.now()
+timestampStr = now.strftime('%Y-%m-%dT%H-%M-%S')
+
+def load_config(configFilePath,isS3Run):
+    """
+    This function reads the config file the local directory
+    Returns:
+    config Variable with json data read from Config file.
+    """
+    global config
+    if not isS3Run:
+        with open(configFilePath, encoding='UTF-8') as con:
+            config = json.loads(con.read())
+    else:
+        s3 = boto3.client('s3')
+        data = s3.get_object(Bucket='lly-edp-landing-us-east-2-dev', Key='enterprisecustomer/eph/config/'+sys.argv[1])
+        file_lines = data['Body'].read().decode('utf-8')
+        config = json.loads(file_lines)
     
-              
-}
+
+def has_column(df_input, column_name):
+    """
+    This function checks whether the Dataframe has the specified
+    column. If yes returns True else False
+    Args:
+        df_input (Dataframe): the Dataframe where the column name is checked
+        column_name (string): Column Name to check fo in the Dataframe
+
+    Returns:
+        True/False: Based on whether the column exists or not returns a boolean value
+    """
+    try:
+        return isinstance(df_input[column_name], Column)
+    except AnalysisException:
+        return False
+    except Exception as excep_msg:
+        raise excep_msg
+
+def flatten(df_input, drop_column_list):
+    """
+    This function is a generic function which can flatten any complex netsed json
+    structure into a single flat dataframe.
+    The function recursively traverses each element in the dataframe and if the element is a
+    nested (StructType/Arraytype) structure, explodes or flattens it accordingly.
+    N levels of nestings can also be flattened.
+    Args:
+        df_input (DataFrame): the dataframe to be flattened
+        drop_column_list (List): While flattening if any column that need not be flattened in
+                                 the dataframe, the column name should be provided and will be
+                                 dropped while flattening.
+    Raises:
+        excep_msg: Any Exception Occured during the flattening is thrown.
+
+    Returns:
+        DataFrame: The resultant flattened DataFrame is returned.
+    """
+    try:
+        complex_fields = {
+            field.name: field.dataType
+            for field in df_input.schema.fields
+            if isinstance(field.dataType, (types.ArrayType, types.StructType))
+        }
+        while len(complex_fields) != 0:
+            col_name = list(complex_fields.keys())[0]
+            if col_name in drop_column_list:
+                df_input = df_input.drop(col_name)
+            elif isinstance(complex_fields[col_name], types.StructType):
+                expanded = [func.col(col_name + '.' + k).alias(col_name + '_' + k)
+                            for k in [n.name for n in complex_fields[col_name]]]
+                df_input = df_input.select("*", *expanded).drop(col_name)
+            elif isinstance(complex_fields[col_name], types.ArrayType):
+                df_input = df_input.withColumn(col_name, func.explode_outer(col_name))
+            complex_fields = {
+                field.name: field.dataType
+                for field in df_input.schema.fields
+                if isinstance(field.dataType, (types.ArrayType, types.StructType))
+            }
+        return df_input
+    except Exception as excep_msg:
+        raise excep_msg
+
+
+def transformation(df_transform, transform_type):
+    """
+    Description: Transforming Single and Nested attributes to rows
+    based on joined column value aggregation
+    :param df_transform:
+    :param transform_type:
+    :return:
+    """
+    try:
+        if transform_type == 'SINGLE':
+            row_val = [row[0] for row in df_transform.select('joined_column').distinct().collect()]
+            cols = [func.when(func.col("joined_column") == m, \
+                              func.col("value")).otherwise(None).alias(m) \
+                    for m in row_val]
+            maxs = [func.max(func.col(m)).alias(m) for m in row_val]
+            df_trans = (df_transform
+                        .select(func.col("cross_source"), func.col("cross_value"),func.col("EntityID"), *cols)
+                        .groupBy("cross_source", "cross_value","EntityID")
+                        .agg(*maxs)
+                        .na.fill(0))
+
+        else:
+            df_transform = df_transform.withColumn("cross_uri", \
+                                                   func.split(df_transform['uri'], '/')[4])\
+                .drop(df_transform['uri'])
+            row_val = [row[0] for row in df_transform.select('joined_column').distinct().collect()]
+            cols = [func.when(func.col("joined_column") == m, \
+                              func.col("value")).otherwise(None).alias(m)
+                    for m in row_val]
+            maxs = [func.max(func.col(m)).alias(m) for m in row_val]
+            df_trans = (df_transform
+                        .select(func.col("cross_source"), func.col("cross_value"),func.col("EntityID"), \
+                                func.col("cross_uri"), *cols)\
+                        .groupBy("cross_source", "cross_uri", "cross_value","EntityID")\
+                        .agg(*maxs)
+                        .na.fill(0))
+        return df_trans
+    except Exception as excep_msg:
+        return excep_msg
+
+def joined_atribute_s(df_cross, df_attribute):
+    """
+    :param df_input:
+    :param df_cross:
+    :param df_attribute:
+    :param df_nested_att:
+    :return:
+    """
+    try:
+        df_single_att = df_cross.join(df_attribute, df_cross['uri'] == df_attribute['uri'], 'inner') \
+            .select(df_cross['cross_value'], df_cross['cross_source'], df_cross['uri'], \
+                    df_attribute['value'], df_attribute['joined_column'],df_attribute['EntityID'])
+        #df_single_att.show()
+        df_single = transformation(df_single_att, 'SINGLE')
+        return df_single
+    except Exception as excep_msg:
+        raise excep_msg
+
+def joined_atribute_n(df_cross,df_nested_att):
+    """
+    :param df_input:
+    :param df_cross:
+    :param df_attribute:
+    :param df_nested_att:
+    :return:
+    """
+    try:
+        df_nested_att = df_cross.join(df_nested_att, df_cross['uri'] == df_nested_att['uri'], 'inner') \
+            .select(df_cross['cross_value'], df_cross['cross_source'], df_cross['uri'], \
+                    df_nested_att['value'], df_nested_att['joined_column'])
+            
+         
+        #df_nested_att.show()
+        df_nested = transformation(df_nested_att, None)
+        return df_nested
+    except Exception as excep_msg:
+        raise excep_msg
+    
+def tryPrint(df_input):
+    try:
+        df_input.show()
+    except Exception as excep_msg:
+        print(excep_msg)
+        
+def df_crosswalk_flattened(df_input):
+    """
+      Description: Crosswalks flattening
+      Input: df_input dataframe
+      Output: df_attribute dataframe contains uri, cross_value and crosswalk source
+    """
+    try:
+        df_schema = StructType([
+            StructField("uri", StringType(), True), \
+            StructField("cross_value", StringType(), True), \
+            StructField("cross_source", StringType(), True)
+        ])
+
+        df_crosswalk = sqlContext.createDataFrame(sc.emptyRDD(), schema=df_schema)
+        if not has_column(df_input, 'crosswalks'):
+            msg = "column crosswalk not found"
+            print(msg)
+            tryPrint(df_input)
+            return None
+        
+        df_crosswalk_flattened = flatten(df_input.select('crosswalks'), \
+                                         ['crosswalks_singleAttributeUpdateDates'])
+
+        for column in config['crosswalkcol']:
+            df_crosswalk_flattened = df_crosswalk_flattened.drop(column)
+
+        df_crosswalk_flattened = df_crosswalk_flattened.\
+            withColumn('cross_value',\
+                       func.split(df_crosswalk_flattened.crosswalks_uri,'/')[3]) \
+            .drop(df_crosswalk_flattened.crosswalks_uri)
+
+        df_crosswalk_flattened = df_crosswalk_flattened.withColumn('cross_source',
+                                                                   func.split(df_crosswalk_flattened.crosswalks_type,
+                                                                              '/')[2]) \
+            .drop(df_crosswalk_flattened.crosswalks_type)
+        df_crosswalk = df_crosswalk.unionAll(df_crosswalk_flattened)
+        return df_crosswalk
+    except Exception as excep_msg:
+        raise excep_msg
+
+
+def df_nested_flattened(df_input,value):
+    """
+      Description: Attribute level flattening for the nested attributes
+      Input: df_input dataframe
+      Output: df_nes dataframe contains uri, value and joined column name
+    """
+    try:
+        df_schema = StructType([
+            StructField("uri", StringType(), True), \
+            StructField("value", StringType(), True), \
+            StructField("joined_column", StringType(), True),
+            StructField("EntityID", StringType(), True)
+        ])
+
+        def_nes = sqlContext.createDataFrame(sc.emptyRDD(), schema=df_schema)
+        for nestatt in value:
+            if has_column(df_input, nestatt):
+                df_nest_flattend = flatten(df_input.select(nestatt), [])
+                nestatt = nestatt.split('.')[-1]
+                selectcols = [nestatt + '_uri', nestatt + '_value']
+                df_nest_flattend = df_nest_flattend.select(*selectcols) \
+                    .withColumnRenamed(selectcols[0], "uri") \
+                    .withColumnRenamed(selectcols[1], "value")
+                df_nest_flattend = df_nest_flattend.withColumn('joined_column', \
+                                                               func.split(df_nest_flattend.uri, '/')[5])
+                df_nest_flattend = df_nest_flattend.withColumn('EntityID', \
+                                                               func.split(df_nest_flattend.uri, '/')[1])
+                def_nes = def_nes.unionAll(df_nest_flattend)
+        return def_nes
+    except Exception as excep_msg:
+        raise excep_msg
+
+
+def df_attribute_flattened(df_input):
+    """
+    Description: Attribute level flattening for the single attributes
+    Input: df_input dataframe
+    Output: df_attr dataframe contains uri, value and joined column name
+    """
+    try:
+        df_schema = StructType([
+            StructField("uri", StringType(), True), \
+            StructField("value", StringType(), True), \
+            StructField("joined_column", StringType(), True),
+            StructField("EntityID", StringType(), True)
+        ])
+        df_attr = sqlContext.createDataFrame(sc.emptyRDD(), schema=df_schema)
+
+        for flatatt in config['singleattribute']:
+            if has_column(df_input, flatatt):
+                df_attr_flattend = flatten(df_input.select(flatatt), [])
+                attr = flatatt.split('.')[-1]
+                selectcols = [attr + '_uri', attr + '_value']
+                df_attr_flattend = df_attr_flattend.select(*selectcols) \
+                    .withColumnRenamed(selectcols[0], "uri") \
+                    .withColumnRenamed(selectcols[1], "value")
+                df_attr_flattend = df_attr_flattend.withColumn('joined_column',\
+                                                               func.split(df_attr_flattend.uri, '/')[3])
+                df_attr_flattend = df_attr_flattend.withColumn('EntityID', \
+                                                               func.split(df_attr_flattend.uri, '/')[1])
+                df_attr = df_attr.union(df_attr_flattend)
+        return df_attr
+    except Exception as excep_msg:
+        raise excep_msg
+
+def main():
+    """
+    Calling functions
+    """
+    print(sys.argv)
+    if len(sys.argv) <= 1 :
+        ex_msg = 'Missing Config File Path'
+        print(ex_msg)
+        raise ex_msg
+    
+    isS3Run = True
+    if( len(sys.argv) == 3  and sys.argv[2] == 'l'):
+        isS3Run = False
+    
+    load_config(sys.argv[1], isS3Run)
+    
+    if isS3Run:
+        df_input = spark.read.option("multiline","true").json(config['s3fileInputPath'])
+    else:
+        df_input = spark.read.option("multiline","true").json(config['localfileInputPath'])
+         
+    print(df_input.count())
+
+    df_cross = df_crosswalk_flattened(df_input)
+    df_attribute = df_attribute_flattened(df_input)  
+    
+    #1 For joining crosswalk and attribute
+    df_s=joined_atribute_s(df_cross, df_attribute)
+    if isS3Run:
+        outputPath = config['outputFolderPath'] + '/' + config['outerFolderPrefix']
+        df_s.coalesce(1).write.parquet(outputPath, mode='append')
+    else:
+        df_s.show()
+    #
+    #2 For joining crosswalk and each nested attribute
+    for nest_dict,val in config['nested'].items():
+        df_nested_att = df_nested_flattened(df_input, val)
+        df_n = joined_atribute_n(df_cross, df_nested_att)
+        if isS3Run:
+            outputPath = config['outputFolderPath'] + '/' + config['outerFolderPrefix'] + "_" + nest_dict
+            df_n.coalesce(1).write.parquet(outputPath, mode='append')
+        else:
+            try:
+                #df_n.coalesce(1).write.parquet("s3://lly-edp-landing-us-east-2-dev/enterprisecustomer/eph/analytic/hco/processed_data/"+ nest_dict+"/",mode='append')
+                df_n.show()
+            except Exception as excep_msg:
+                print(excep_msg)            
+                print("Empty dataframe for key: "+nest_dict)
+        
+        
+if __name__ == "__main__":
+    main()
