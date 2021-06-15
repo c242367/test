@@ -1,1 +1,47 @@
 
+{
+    "localfileInputPath": "file:///H:/python/relation/100_rec_rel.json",
+    "s3fileInputPath": "s3://lly-edp-landing-us-east-2-dev/enterprisecustomer/eph/analytic/hco/incoming_data/HCO_10k.json",
+    "outputFolderPath": "s3://lly-edp-landing-us-east-2-dev/enterprisecustomer/eph/analytic/hco/processed_data/",
+    "outerFolderPrefix": "hco",
+	"edp_hcp": {
+        "inp_bucket": "lly-edp-landing-us-east-2-dev",
+        "out_bucket": "lly-edp-landing-us-east-2-dev",
+        "inp_location": "enterprisecustomer/eph/analytic/hcp/incoming/ovflase.json",
+        "stg_location": "enterprisecustomer/eph/analytic/hcp/staging/",
+	"out_location": "enterprisecustomer/eph/analytic/hcp/processed/"},
+    "crosswalkcol": ["crosswalks_reltioLoadDate","crosswalks_createDate","crosswalks_sourceTable","crosswalks_value",
+    "crosswalks_updateDate"],
+    "singleattribute":["attributes.ActiveFlag","attributes.ProcessingDate","attributes.Rank"
+        ],
+        "nested": {
+            "HCPtoHCO_nestedattribute_email":["attributes.Email.EffectiveEndDate","attributes.Email.EffectiveStartDate","attributes.Email.DataValidationStatusCode.lookupCode","attributes.Email.DataValidationStatusCode.lookupRawvalue","attributes.Email.Email",
+    "attributes.Email.Rank","attributes.Email.Type","attributes.Email.ValidationReasonCode.lookupCode","attributes.Email.ValidationReasonCode.lookupRawvalue",
+    "attributes.Email.Source"],
+            
+            "HCPtoHCO_nestedattribute_phone":["attributes.Phone.ActiveFlag","attributes.Phone.CountryCode.lookupCode","attributes.Phone.CountryCode.lookupRawvalue",
+    "attributes.Phone.EffectiveEndDate","attributes.Phone.EffectiveStartDate","attributes.Phone.DataValidationStatusCode.lookupCode",
+    "attributes.Phone.DataValidationStatusCode.lookupRawvalue","attributes.Phone.Extension","attributes.Phone.Number","attributes.Phone.Rank",
+    "attributes.Phone.Type","attributes.Phone.ValidationReasonCode.lookupCode","attributes.Phone.ValidationReasonCode.lookupRawvalue",
+    "attributes.Phone.Source"],
+            
+            "HCPtoHCO_nestedattribute_Role":["attributes.Role.RoleTypeCode.lookupCode","attributes.Role.RoleTypeCode.lookupRawvalue",
+    "attributes.Role.Hierarchy","attributes.Role.RelationshipTypeCode.lookupCode","attributes.Role.RelationshipTypeCode.lookupRawvalue",
+    "attributes.Role.DataValidationStatusCode.lookupCode","attributes.Role.DataValidationStatusCode.lookupRawvalue","attributes.Role.EffectiveEndDate",
+    "attributes.Role.EffectiveStartDate","attributes.Role.Rank","attributes.Role.ValidationReasonCode.lookupCode",
+    "attributes.Role.ValidationReasonCode.lookupRawvalue","attributes.Role.Source"], 
+    "Identifiers":["attributes.Identifiers.value.Type","attributes.Identifiers.value.ID","attributes.Identifiers.value.EffectiveEndDate","attributes.Identifiers.value.EffectiveStartDate","attributes.Identifiers.value.DeactivationDate","attributes.Identifiers.value.Status","attributes.Identifiers.value.SubType","attributes.Identifiers.value.DataValidationStatusCode"],
+
+            
+            "HCPtoHCO_nestedattribute_AffiliationClassification":["attributes.AffiliationClassification.Hierarchy",
+    "attributes.AffiliationClassification.RelationshipTypeCode.lookupCode","attributes.AffiliationClassification.RelationshipTypeCode.lookupRawvalue",
+    "attributes.AffiliationClassification.RelationshipGroupTypeCode.lookupCode","attributes.AffiliationClassification.RelationshipGroupTypeCode.lookupRawvalue",
+    "attributes.AffiliationClassification.Source","attributes.AffiliationClassification.ActiveFlag","attributes.AffiliationClassification.DataValidationStatusCode.lookupCode","attributes.AffiliationClassification.DataValidationStatusCode.lookupRawvalue",
+    "attributes.AffiliationClassification.EffectiveStartDate","attributes.AffiliationClassification.EffectiveEndDate",
+    "attributes.AffiliationClassification.Rank","attributes.AffiliationClassification.SkipID","attributes.AffiliationClassification.ParentTypeCode.lookupCode",
+    "attributes.AffiliationClassification.ParentTypeCode.lookupRawvalue","attributes.AffiliationClassification.ValidationReasonCode.lookupCode",
+    "attributes.AffiliationClassification.ValidationReasonCode.lookupRawvalue","attributes.AffiliationClassification.AffiliationSource"]
+     }
+    
+              
+}
