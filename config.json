@@ -1,97 +1,450 @@
-
-
 {
-        "localfileInputPath": "file:///C:/R/personal_projects/python/bigfile.json",
-        "s3fileInputPath": "s3://lly-edp-landing-us-east-2-dev/enterprisecustomer/eph/analytic/hco/incoming_data/HCO_10k.json",
-        "outputFolderPath": "s3://lly-edp-landing-us-east-2-dev/enterprisecustomer/eph/analytic/hco/processed_data/",
-        "outerFolderPrefix": "hco",
-        "edp_hcp": {
-                "inp_bucket": "lly-edp-landing-us-east-2-dev",
-                "out_bucket": "lly-edp-landing-us-east-2-dev",
-                "inp_location": "enterprisecustomer/eph/analytic/hcp/incoming/ovflase.json",
-                "stg_location": "enterprisecustomer/eph/analytic/hcp/staging/",
-                "out_location": "enterprisecustomer/eph/analytic/hcp/processed/"
-        },
-        "crosswalkcol": ["crosswalks_reltioLoadDate","crosswalks_createDate","crosswalks_sourceTable","crosswalks_value",
-        "crosswalks_updateDate"],
-        "singleattribute": ["attributes.ActiveFlag","attributes.ProcessingDate" ],
-        "nested": {
-                "HCPtoHCO_nestedattribute_AffiliationClassification": [
-                        {"attributes.AffiliationClassification.value.Hierarchy" : "value"   },
-                        {"attributes.AffiliationClassification.value.Source": "value"},
-                        {"attributes.AffiliationClassification.value.RelationshipTypeCode": "lookupCode"}, 
-                        {"attributes.AffiliationClassification.value.RelationshipTypeCode" : "lookupRawvalue"}, 
-                        {"attributes.AffiliationClassification.value.ActiveFlag" : "value"}, 
-                        {"attributes.AffiliationClassification.value.DataValidationStatusCode": "lookupCode"}, 
-                        {"attributes.AffiliationClassification.value.DataValidationStatusCode" : "lookupRawvalue"}, 
-                        {"attributes.AffiliationClassification.value.EffectiveStartDate":"value"}, 
-                        {"attributes.AffiliationClassification.value.EffectiveEndDate":"value"},
-                        {"attributes.AffiliationClassification.value.Rank":"value"},
-                        {"attributes.AffiliationClassification.value.SkipID":"value"},
-                        {"attributes.AffiliationClassification.value.ParentTypeCode":"lookupCode"},
-                        {"attributes.AffiliationClassification.value.EffectiveEndDate":"value"},
-                        {"attributes.AffiliationClassification.value.ParentTypeCode":"lookupRawvalue"},
-                        {"attributes.AffiliationClassification.value.ValidationReasonCode":"lookupCode"},
-                        {"attributes.AffiliationClassification.value.ParentTypeCode":"lookupRawvalue"},
-                        {"attributes.AffiliationClassification.value.ValidationReasonCode":"lookupRawvalue"},
-                        {"attributes.AffiliationClassification.value.AffiliationSource":"value"} 
-                ],
-                "HCPtoHCO_nestedattribute_email":[
-                        {"attributes.Email.EffectiveEndDate": "value"},
-                        {"attributes.Email.EffectiveStartDate": "value"},
-                        {"attributes.Email.DataValidationStatusCode": "lookupCode"},
-                        {"attributes.Email.DataValidationStatusCode": "lookupRawvalue"},
-                        {"attributes.Email.Email": "value"},
-                        {"attributes.Email.Rank": "value"},
-                        {"attributes.Email.Type": "value"},
-                        {"attributes.Email.ValidationReasonCode": "lookupCode"},
-                        {"attributes.Email.ValidationReasonCode": "lookupRawvalue"},
-                        {"attributes.Email.Source": "value"}
-                ],
-                                
-                "HCPtoHCO_nestedattribute_phone":[
-                        {"attributes.Phone.ActiveFlag": "value"},
-                        {"attributes.Phone.CountryCode": "lookupCode"},
-                        {"attributes.Phone.CountryCode": "lookupRawvalue"},
-                        {"attributes.Phone.EffectiveEndDate": "value"},
-                        {"attributes.Phone.EffectiveStartDate": "value"},
-                        {"attributes.Phone.DataValidationStatusCode": "lookupCode"},
-                        {"attributes.Phone.DataValidationStatusCode": "lookupRawvalue"},
-                        {"attributes.Phone.Extension": "value"},
-                        {"attributes.Phone.Number": "value"},
-                        {"attributes.Phone.Rank": "value"},
-                        {"attributes.Phone.Type": "value"},
-                        {"attributes.Phone.ValidationReasonCode": "lookupCode"},
-                        {"attributes.Phone.ValidationReasonCode": "lookupRawvalue"},
-                        {"attributes.Phone.Source": "value"}
-                ],
-                                
-                "HCPtoHCO_nestedattribute_Role":[
-                        {"attributes.Role.RoleTypeCode": "lookupCode"},
-                        {"attributes.Role.RoleTypeCode": "lookupRawvalue"},
-                        {"attributes.Role.Hierarchy": "value"},
-                        {"attributes.Role.RelationshipTypeCode": "lookupCode"},
-                        {"attributes.Role.RelationshipTypeCode": "lookupRawvalue"},
-                        {"attributes.Role.DataValidationStatusCode": "lookupCode"},
-                        {"attributes.Role.DataValidationStatusCode": "lookupRawvalue"},
-                        {"attributes.Role.EffectiveEndDate": "value"},
-                        {"attributes.Role.EffectiveStartDate": "value"},
-                        {"attributes.Role.Rank": "value"},
-                        {"attributes.Role.ValidationReasonCode": "lookupCode"},
-                        {"attributes.Role.ValidationReasonCode": "lookupRawvalue"},
-                        {"attributes.Role.Source": "value"}
-                ], 
-                "Identifiers":[
-                        {"attributes.Identifiers.value.Type": "value"},
-                        {"attributes.Identifiers.value.ID": "value"},
-                        {"attributes.Identifiers.value.EffectiveEndDate": "value"},
-                        {"attributes.Identifiers.value.EffectiveStartDate": "value"},
-                        {"attributes.Identifiers.value.DeactivationDate": "value"},
-                        {"attributes.Identifiers.value.Status": "value"},
-                        {"attributes.Identifiers.value.SubType": "value"},
-                        {"attributes.Identifiers.value.DataValidationStatusCode": "value"}
-                ]                      
-        }                   
-            
+    "uri": "relations/IuEjc3z",
+    "type": "configuration/relationTypes/HCPtoHCO",
+    "createdBy": "EPH_APPL",
+    "createdTime": 1509651180673,
+    "updatedBy": "EPH_APPL",
+    "updatedTime": 1595863643233,
+    "startRefPinned": false,
+    "startRefIgnored": false,
+    "endRefPinned": false,
+    "endRefIgnored": false,
+    "attributes": {
+        "ActiveFlag": [{
+            "type": "configuration/relationTypes/HCPtoHCO/attributes/ActiveFlag",
+            "ov": true,
+            "value": "N",
+            "uri": "relations/IuEjc3z/attributes/ActiveFlag/y8GfDjYh"
+        }, {
+            "type": "configuration/relationTypes/HCPtoHCO/attributes/ActiveFlag",
+            "ov": false,
+            "value": "Y",
+            "uri": "relations/IuEjc3z/attributes/ActiveFlag/y96pBg5D"
+        }],
+        "ProcessingDate": [{
+            "type": "configuration/relationTypes/HCPtoHCO/attributes/ProcessingDate",
+            "ov": true,
+            "value": "2020-07-27T00:00:00.000+0000",
+            "uri": "relations/IuEjc3z/attributes/ProcessingDate/3Lc0dzEml"
+        }],
+        "AffiliationClassification": [{
+            "label": "Individual to Organization Affiliation - Affiliation",
+            "value": {
+                "Hierarchy": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/Hierarchy",
+                    "ov": true,
+                    "value": "Individual to Organization Affiliation",
+                    "lookupCode": "HCP_HCO",
+                    "lookupRawValue": "HCP_HCO",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/y8GfD2w7/Hierarchy/y8GfD7CN"
+                }],
+                "RelationshipTypeCode": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/RelationshipTypeCode",
+                    "ov": true,
+                    "value": "Affiliation",
+                    "lookupCode": "7356",
+                    "lookupRawValue": "7356",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/y8GfD2w7/RelationshipTypeCode/y8GfDBSd"
+                }],
+                "RelationshipGroupTypeCode": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/RelationshipGroupTypeCode",
+                    "ov": true,
+                    "value": "Individual to Organization Affiliation",
+                    "lookupCode": "HCP_HCO__c",
+                    "lookupRawValue": "HTH",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/y8GfD2w7/RelationshipGroupTypeCode/y8GfDSVf"
+                }],
+                "ActiveFlag": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/ActiveFlag",
+                    "ov": true,
+                    "value": "N",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/y8GfD2w7/ActiveFlag/y8GfDb2B"
+                }],
+                "DataValidationStatusCode": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/DataValidationStatusCode",
+                    "ov": true,
+                    "value": "VALIDATED",
+                    "lookupCode": "VLDTD",
+                    "lookupRawValue": "VLDTD",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/y8GfD2w7/DataValidationStatusCode/y8GfDFit"
+                }],
+                "EffectiveStartDate": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/EffectiveStartDate",
+                    "ov": true,
+                    "value": "2018-05-10",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/y8GfD2w7/EffectiveStartDate/y8GfDWlv"
+                }],
+                "EffectiveEndDate": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/EffectiveEndDate",
+                    "ov": true,
+                    "value": "2019-01-08",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/y8GfD2w7/EffectiveEndDate/y8GfDJz9"
+                }],
+                "Rank": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/Rank",
+                    "ov": true,
+                    "value": "2",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/y8GfD2w7/Rank/y8GfDOFP"
+                }]
+            },
+            "ov": true,
+            "uri": "relations/IuEjc3z/attributes/AffiliationClassification/y8GfD2w7"
+        }, {
+            "label": "Individual to Organization Affiliation - AMA Group Practice to Provider",
+            "value": {
+                "Hierarchy": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/Hierarchy",
+                    "ov": true,
+                    "value": "Individual to Organization Affiliation",
+                    "lookupCode": "HCP_HCO",
+                    "lookupRawValue": "HCP_HCO",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/1lkeW3j43/Hierarchy/1lkeW3nKJ"
+                }],
+                "RelationshipTypeCode": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/RelationshipTypeCode",
+                    "ov": true,
+                    "value": "AMA Group Practice to Provider",
+                    "lookupCode": "1",
+                    "lookupRawValue": "1",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/1lkeW3j43/RelationshipTypeCode/1lkeW3raZ"
+                }],
+                "RelationshipGroupTypeCode": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/RelationshipGroupTypeCode",
+                    "ov": true,
+                    "value": "Individual to Organization Affiliation",
+                    "lookupCode": "HCP_HCO__c",
+                    "lookupRawValue": "HTH",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/1lkeW3j43/RelationshipGroupTypeCode/1lkeW48db"
+                }],
+                "ActiveFlag": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/ActiveFlag",
+                    "ov": true,
+                    "value": "N",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/1lkeW3j43/ActiveFlag/1lkeW4HA7"
+                }],
+                "DataValidationStatusCode": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/DataValidationStatusCode",
+                    "ov": true,
+                    "value": "VALIDATED",
+                    "lookupCode": "VLDTD",
+                    "lookupRawValue": "VLDTD",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/1lkeW3j43/DataValidationStatusCode/1lkeW3vqp"
+                }],
+                "EffectiveStartDate": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/EffectiveStartDate",
+                    "ov": true,
+                    "value": "2016-01-25",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/1lkeW3j43/EffectiveStartDate/1lkeW4Ctr"
+                }],
+                "EffectiveEndDate": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/EffectiveEndDate",
+                    "ov": true,
+                    "value": "2018-05-10",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/1lkeW3j43/EffectiveEndDate/1lkeW4075"
+                }],
+                "Rank": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/Rank",
+                    "ov": true,
+                    "value": "2",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/1lkeW3j43/Rank/1lkeW44NL"
+                }]
+            },
+            "ov": true,
+            "uri": "relations/IuEjc3z/attributes/AffiliationClassification/1lkeW3j43"
+        }, {
+            "label": "Individual to Organization Affiliation - Provider to Account with Address Match",
+            "value": {
+                "Hierarchy": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/Hierarchy",
+                    "ov": true,
+                    "value": "Individual to Organization Affiliation",
+                    "lookupCode": "HCP_HCO",
+                    "lookupRawValue": "HCP_HCO",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/oPlNWWDH/Hierarchy/oPlNX035"
+                }],
+                "RelationshipTypeCode": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/RelationshipTypeCode",
+                    "ov": true,
+                    "value": "Provider to Account with Address Match",
+                    "lookupCode": "11",
+                    "lookupRawValue": "11",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/oPlNWWDH/RelationshipTypeCode/oPlNX4JL"
+                }],
+                "RelationshipGroupTypeCode": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/RelationshipGroupTypeCode",
+                    "ov": true,
+                    "value": "Individual to Organization Affiliation",
+                    "lookupCode": "HCP_HCO__c",
+                    "lookupRawValue": "HTH",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/oPlNWWDH/RelationshipGroupTypeCode/oPlNWejn"
+                }],
+                "ActiveFlag": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/ActiveFlag",
+                    "ov": true,
+                    "value": "N",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/oPlNWWDH/ActiveFlag/oPlNWvmp"
+                }],
+                "DataValidationStatusCode": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/DataValidationStatusCode",
+                    "ov": true,
+                    "value": "VALIDATED",
+                    "lookupCode": "VLDTD",
+                    "lookupRawValue": "VLDTD",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/oPlNWWDH/DataValidationStatusCode/oPlNWaTX"
+                }],
+                "EffectiveStartDate": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/EffectiveStartDate",
+                    "ov": true,
+                    "value": "2015-07-15",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/oPlNWWDH/EffectiveStartDate/oPlNWrWZ"
+                }],
+                "EffectiveEndDate": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/EffectiveEndDate",
+                    "ov": true,
+                    "value": "2016-12-30",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/oPlNWWDH/EffectiveEndDate/oPlNWnGJ"
+                }],
+                "Rank": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/Rank",
+                    "ov": true,
+                    "value": "2",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/oPlNWWDH/Rank/oPlNWj03"
+                }]
+            },
+            "ov": true,
+            "uri": "relations/IuEjc3z/attributes/AffiliationClassification/oPlNWWDH"
+        }, {
+            "label": "Individual to Organization Affiliation - Affiliation",
+            "value": {
+                "Hierarchy": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/Hierarchy",
+                    "ov": false,
+                    "value": "Individual to Organization Affiliation",
+                    "lookupCode": "HCP_HCO",
+                    "lookupRawValue": "HCP_HCO",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/y96pAzSd/Hierarchy/y96pB3it"
+                }],
+                "RelationshipTypeCode": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/RelationshipTypeCode",
+                    "ov": false,
+                    "value": "Affiliation",
+                    "lookupCode": "7356",
+                    "lookupRawValue": "7356",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/y96pAzSd/RelationshipTypeCode/y96pB7z9"
+                }],
+                "RelationshipGroupTypeCode": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/RelationshipGroupTypeCode",
+                    "ov": false,
+                    "value": "Individual to Organization Affiliation",
+                    "lookupCode": "HCP_HCO__c",
+                    "lookupRawValue": "HTH",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/y96pAzSd/RelationshipGroupTypeCode/y96pBP2B"
+                }],
+                "ActiveFlag": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/ActiveFlag",
+                    "ov": false,
+                    "value": "Y",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/y96pAzSd/ActiveFlag/y96pBTIR"
+                }],
+                "DataValidationStatusCode": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/DataValidationStatusCode",
+                    "ov": false,
+                    "value": "VALIDATED",
+                    "lookupCode": "VLDTD",
+                    "lookupRawValue": "VLDTD",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/y96pAzSd/DataValidationStatusCode/y96pBCFP"
+                }],
+                "EffectiveStartDate": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/EffectiveStartDate",
+                    "ov": false,
+                    "value": "2018-05-10",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/y96pAzSd/EffectiveStartDate/y96pBXYh"
+                }],
+                "EffectiveEndDate": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/EffectiveEndDate",
+                    "ov": false,
+                    "value": "9999-12-31",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/y96pAzSd/EffectiveEndDate/y96pBGVf"
+                }],
+                "Rank": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/Rank",
+                    "ov": false,
+                    "value": "2",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/y96pAzSd/Rank/y96pBKlv"
+                }]
+            },
+            "ov": false,
+            "uri": "relations/IuEjc3z/attributes/AffiliationClassification/y96pAzSd"
+        }, {
+            "label": "Individual to Organization Affiliation - AMA Group Practice to Provider",
+            "value": {
+                "Hierarchy": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/Hierarchy",
+                    "ov": false,
+                    "value": "Individual to Organization Affiliation",
+                    "lookupCode": "HCP_HCO",
+                    "lookupRawValue": "HCP_HCO",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/y96p9kjz/Hierarchy/y96p9p0F"
+                }],
+                "RelationshipTypeCode": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/RelationshipTypeCode",
+                    "ov": false,
+                    "value": "AMA Group Practice to Provider",
+                    "lookupCode": "1",
+                    "lookupRawValue": "1",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/y96p9kjz/RelationshipTypeCode/y96p9tGV"
+                }],
+                "RelationshipGroupTypeCode": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/RelationshipGroupTypeCode",
+                    "ov": false,
+                    "value": "Individual to Organization Affiliation",
+                    "lookupCode": "HCP_HCO__c",
+                    "lookupRawValue": "HTH",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/y96p9kjz/RelationshipGroupTypeCode/y96pAAJX"
+                }],
+                "ActiveFlag": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/ActiveFlag",
+                    "ov": false,
+                    "value": "N",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/y96p9kjz/ActiveFlag/y96pAEZn"
+                }],
+                "DataValidationStatusCode": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/DataValidationStatusCode",
+                    "ov": false,
+                    "value": "VALIDATED",
+                    "lookupCode": "VLDTD",
+                    "lookupRawValue": "VLDTD",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/y96p9kjz/DataValidationStatusCode/y96p9xWl"
+                }],
+                "EffectiveStartDate": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/EffectiveStartDate",
+                    "ov": false,
+                    "value": "2014-09-27",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/y96p9kjz/EffectiveStartDate/y96pAIq3"
+                }],
+                "EffectiveEndDate": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/EffectiveEndDate",
+                    "ov": false,
+                    "value": "2018-05-10",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/y96p9kjz/EffectiveEndDate/y96pA1n1"
+                }],
+                "Rank": [{
+                    "type": "configuration/relationTypes/HCPtoHCO/attributes/AffiliationClassification/attributes/Rank",
+                    "ov": false,
+                    "value": "2",
+                    "uri": "relations/IuEjc3z/attributes/AffiliationClassification/y96p9kjz/Rank/y96pA63H"
+                }]
+            },
+            "ov": false,
+            "uri": "relations/IuEjc3z/attributes/AffiliationClassification/y96p9kjz"
+        }]
+    },
+    "crosswalks": [{
+        "uri": "relations/IuEjc3z/crosswalks/oPlNX8Zb",
+        "type": "configuration/sources/CODS",
+        "value": "HCPtoHCO_CODS_00002914052_1NVFNTGZNT",
+        "reltioLoadDate": "2020-07-27T15:27:23.233Z",
+        "createDate": "2017-11-02T19:33:00.673Z",
+        "updateDate": "2017-11-02T19:33:00.673Z",
+        "attributes": ["relations/IuEjc3z/attributes/AffiliationClassification/1lkeW3j43/EffectiveStartDate/1lkeW4Ctr", "relations/IuEjc3z/attributes/AffiliationClassification/oPlNWWDH/RelationshipGroupTypeCode/oPlNWejn", "relations/IuEjc3z/attributes/ActiveFlag/y8GfDjYh", "relations/IuEjc3z/attributes/AffiliationClassification/y8GfD2w7/Rank/y8GfDOFP", "relations/IuEjc3z/attributes/AffiliationClassification/oPlNWWDH/DataValidationStatusCode/oPlNWaTX", "relations/IuEjc3z/attributes/AffiliationClassification/oPlNWWDH/Hierarchy/oPlNX035", "relations/IuEjc3z/attributes/AffiliationClassification/1lkeW3j43/RelationshipGroupTypeCode/1lkeW48db", "relations/IuEjc3z/attributes/AffiliationClassification/y8GfD2w7/EffectiveStartDate/y8GfDWlv", "relations/IuEjc3z/attributes/AffiliationClassification/1lkeW3j43/DataValidationStatusCode/1lkeW3vqp", "relations/IuEjc3z/attributes/AffiliationClassification/y8GfD2w7/Hierarchy/y8GfD7CN", "relations/IuEjc3z/attributes/AffiliationClassification/y8GfD2w7/RelationshipGroupTypeCode/y8GfDSVf", "relations/IuEjc3z/attributes/AffiliationClassification/oPlNWWDH/Rank/oPlNWj03", "relations/IuEjc3z/attributes/ProcessingDate/3Lc0dzEml", "relations/IuEjc3z/attributes/AffiliationClassification/1lkeW3j43/Rank/1lkeW44NL", "relations/IuEjc3z/attributes/AffiliationClassification/oPlNWWDH/ActiveFlag/oPlNWvmp", "relations/IuEjc3z/attributes/AffiliationClassification/1lkeW3j43/EffectiveEndDate/1lkeW4075", "relations/IuEjc3z/attributes/AffiliationClassification/oPlNWWDH", "relations/IuEjc3z/attributes/AffiliationClassification/y8GfD2w7/EffectiveEndDate/y8GfDJz9", "relations/IuEjc3z/attributes/AffiliationClassification/oPlNWWDH/RelationshipTypeCode/oPlNX4JL", "relations/IuEjc3z/attributes/AffiliationClassification/oPlNWWDH/EffectiveStartDate/oPlNWrWZ", "relations/IuEjc3z/attributes/AffiliationClassification/1lkeW3j43", "relations/IuEjc3z/attributes/AffiliationClassification/y8GfD2w7", "relations/IuEjc3z/attributes/AffiliationClassification/1lkeW3j43/ActiveFlag/1lkeW4HA7", "relations/IuEjc3z/attributes/AffiliationClassification/oPlNWWDH/EffectiveEndDate/oPlNWnGJ", "relations/IuEjc3z/attributes/AffiliationClassification/1lkeW3j43/Hierarchy/1lkeW3nKJ", "relations/IuEjc3z/attributes/AffiliationClassification/1lkeW3j43/RelationshipTypeCode/1lkeW3raZ", "relations/IuEjc3z/attributes/AffiliationClassification/y8GfD2w7/DataValidationStatusCode/y8GfDFit", "relations/IuEjc3z/attributes/AffiliationClassification/y8GfD2w7/ActiveFlag/y8GfDb2B", "relations/IuEjc3z/attributes/AffiliationClassification/y8GfD2w7/RelationshipTypeCode/y8GfDBSd"],
+        "singleAttributeUpdateDates": {}
+    }, {
+        "uri": "relations/IuEjc3z/crosswalks/y96p947P",
+        "type": "configuration/sources/CODS",
+        "value": "HCPtoHCO_CODS_00002914052_1NVG1G5CMT",
+        "reltioLoadDate": "2020-07-27T15:27:23.233Z",
+        "createDate": "2017-11-02T19:33:00.673Z",
+        "updateDate": "2017-11-02T19:33:00.673Z",
+        "attributes": ["relations/IuEjc3z/attributes/AffiliationClassification/y96p9kjz", "relations/IuEjc3z/attributes/AffiliationClassification/y96pAzSd", "relations/IuEjc3z/attributes/AffiliationClassification/y96p9kjz/EffectiveStartDate/y96pAIq3", "relations/IuEjc3z/attributes/AffiliationClassification/y96pAzSd/DataValidationStatusCode/y96pBCFP", "relations/IuEjc3z/attributes/AffiliationClassification/y96pAzSd/Rank/y96pBKlv", "relations/IuEjc3z/attributes/AffiliationClassification/y96p9kjz/ActiveFlag/y96pAEZn", "relations/IuEjc3z/attributes/ActiveFlag/y96pBg5D", "relations/IuEjc3z/attributes/ProcessingDate/3Lc0dzEml", "relations/IuEjc3z/attributes/AffiliationClassification/y96pAzSd/RelationshipTypeCode/y96pB7z9", "relations/IuEjc3z/attributes/AffiliationClassification/y96pAzSd/EffectiveEndDate/y96pBGVf", "relations/IuEjc3z/attributes/AffiliationClassification/y96p9kjz/EffectiveEndDate/y96pA1n1", "relations/IuEjc3z/attributes/AffiliationClassification/y96p9kjz/DataValidationStatusCode/y96p9xWl", "relations/IuEjc3z/attributes/AffiliationClassification/y96pAzSd/ActiveFlag/y96pBTIR", "relations/IuEjc3z/attributes/AffiliationClassification/y96pAzSd/Hierarchy/y96pB3it", "relations/IuEjc3z/attributes/AffiliationClassification/y96p9kjz/RelationshipGroupTypeCode/y96pAAJX", "relations/IuEjc3z/attributes/AffiliationClassification/y96pAzSd/RelationshipGroupTypeCode/y96pBP2B", "relations/IuEjc3z/attributes/AffiliationClassification/y96p9kjz/RelationshipTypeCode/y96p9tGV", "relations/IuEjc3z/attributes/AffiliationClassification/y96p9kjz/Hierarchy/y96p9p0F", "relations/IuEjc3z/attributes/AffiliationClassification/y96p9kjz/Rank/y96pA63H", "relations/IuEjc3z/attributes/AffiliationClassification/y96pAzSd/EffectiveStartDate/y96pBXYh"],
+        "singleAttributeUpdateDates": {}
+    }],
+    "startObject": {
+        "type": "configuration/entityTypes/HCP",
+        "objectURI": "entities/dGsPrxT",
+        "label": "Walter Gerard Atlas",
+        "directionalLabel": "child HCP",
+        "crosswalks": [{
+            "uri": "entities/dGsPrxT/crosswalks/1CFAPxdVz",
+             ,
+            "sourceTable": "CODS.HCP",
+            "value": "00002914052",
+            "reltioLoadDate": "2020-11-22T04:47:11.702Z",
+            "createDate": "2017-11-02T00:56:19.746Z",
+            "updateDate": "2017-11-02T00:56:19.746Z",
+            "attributes": ["entities/dGsPrxT/attributes/Identifiers/1CFAPRjqF/DeactivationDate/1CFAPRwd1", "entities/dGsPrxT/attributes/Identifiers/1CFAPTFbv/EffectiveEndDate/1CFAPU0Ul", "entities/dGsPrxT/attributes/Identifiers/25i0Z9KF8/Type/25i0Z9Sle", "entities/dGsPrxT/attributes/Education/WQ79wtyc/SchoolName/WQ79xJYA", "entities/dGsPrxT/attributes/Identifiers/1CFAPXieh/DataValidationStatusCode/1CFAPXmux", "entities/dGsPrxT/attributes/WebsiteURL/2AD3QvWXv/EffectiveStartDate/2AD3QvrrD", "entities/dGsPrxT/attributes/Email/1CFAPZAA7/EffectiveStartDate/1CFAPZZjf", "entities/dGsPrxT/attributes/Identifiers/1CFAPTFbv/SubType/1CFAPTjRj", "entities/dGsPrxT/attributes/Email/1CFAPZdzv/Email/1CFAPZmWR", "entities/dGsPrxT/attributes/Identifiers/1CFAPXieh/ID/1CFAPY3xz", "entities/dGsPrxT/attributes/Identifiers/1wWCim6dv/Status/1wWCimAuB", "entities/dGsPrxT/attributes/Email/gOz1QGo0/EffectiveEndDate/gOz1QXr2", "entities/dGsPrxT/attributes/Specialities/1CFAPxDwR", "entities/dGsPrxT/attributes/Identifiers/1wWCim6dv/EffectiveStartDate/1wWCimejz", "entities/dGsPrxT/attributes/Identifiers/1CFAPY8EF/Type/1CFAPYL11", "entities/dGsPrxT/attributes/Email/25i0Z8MZW/Email/25i0Z8ZMI", "entities/dGsPrxT/attributes/Identifiers/1CFAPTFbv/Type/1CFAPTWex", "entities/dGsPrxT/attributes/Identifiers/1CFAPXieh", "entities/dGsPrxT/attributes/Identifiers/1CFAPTFbv/ID/1CFAPTfBT", "entities/dGsPrxT/attributes/Identifiers/1CFAPUlNb/EffectiveEndDate/1CFAPUtu7", "entities/dGsPrxT/attributes/Email/1CFAPZdzv/DataValidationStatusCode/1CFAPZiGB", "entities/dGsPrxT/attributes/Identifiers/1CFAPVAx9/EffectiveStartDate/1CFAPVWGR", "entities/dGsPrxT/attributes/Identifiers/1CFAPRjqF/EffectiveEndDate/1CFAPS0tH", "entities/dGsPrxT/attributes/Email/25i0Z8MZW/EffectiveStartDate/25i0Z8m94", "entities/dGsPrxT/attributes/Identifiers/1CFAPY8EF/EffectiveStartDate/1CFAPYPHH", "entities/dGsPrxT/attributes/Education/WQ79wtyc/EndYear/WQ79xFHu", "entities/dGsPrxT/attributes/Email/25i0Z8MZW", "entities/dGsPrxT/attributes/Specialities/1CFAPwk6d/SpecialtyType/1CFAPx5Pv", "entities/dGsPrxT/attributes/Source/1CFAPYt75", "entities/dGsPrxT/attributes/Specialities/1CFAPwk6d/DataValidationStatusCode/1CFAPwoMt", "entities/dGsPrxT/attributes/Identifiers/1CFAPRjqF", "entities/dGsPrxT/attributes/Identifiers/1CFAPY8EF/ID/1CFAPYTXX", "entities/dGsPrxT/attributes/Identifiers/1vigEGOIf/Type/1vigEGWpB", "entities/dGsPrxT/attributes/Email/1CFAPZAA7/Rank/1CFAPZMwt", "entities/dGsPrxT/attributes/Specialities/1CFAPxDwR/EffectiveStartDate/1CFAPxQjD", "entities/dGsPrxT/attributes/Identifiers/25i0Z9KF8/ID/25i0Z9bIA", "entities/dGsPrxT/attributes/Identifiers/1bj28EU3z/EffectiveEndDate/1bj28Egql", "entities/dGsPrxT/attributes/Email/1CFAPZAA7/Email/1CFAPZIgd", "entities/dGsPrxT/attributes/Identifiers/25i0Z9KF8/EffectiveStartDate/25i0Z9fYQ", "entities/dGsPrxT/attributes/Identifiers/1CFAPVj3D/EffectiveStartDate/1CFAPW06F", "entities/dGsPrxT/attributes/Identifiers/1bj28EU3z/Type/1bj28EcaV", "entities/dGsPrxT/attributes/Identifiers/1CFAPTFbv", "entities/dGsPrxT/attributes/Specialities/1CFAPxDwR/SpecialtyType/1CFAPxUzT", "entities/dGsPrxT/attributes/Identifiers/1CFAPWkz5/EffectiveEndDate/1CFAPWxlr", "entities/dGsPrxT/attributes/EffectiveStartDate/1CFAPRX3T", "entities/dGsPrxT/attributes/Identifiers/1CFAPVAx9/DataValidationStatusCode/1CFAPVJTf", "entities/dGsPrxT/attributes/Identifiers/1CFAPVj3D", "entities/dGsPrxT/attributes/Identifiers/1bj28EU3z", "entities/dGsPrxT/attributes/Identifiers/1CFAPTFbv/EffectiveStartDate/1CFAPUcr5", "entities/dGsPrxT/attributes/Identifiers/1wWCim6dv/ID/1wWCimWDT", "entities/dGsPrxT/attributes/Specialities/1CFAPwk6d", "entities/dGsPrxT/attributes/Education/WQ79wtyc/CredentialCode/WQ79x6lO", "entities/dGsPrxT/attributes/Identifiers/1CFAPVAx9/Status/1CFAPVFDP", "entities/dGsPrxT/attributes/Email/1CFAPZdzv/Rank/1CFAPZqmh", "entities/dGsPrxT/attributes/Specialities/1CFAPwk6d/EffectiveStartDate/1CFAPx19f", "entities/dGsPrxT/attributes/Education/WQ79wtyc/EffectiveEndDate/WQ79xB1e", "entities/dGsPrxT/attributes/Email/gOz1QGo0/Rank/gOz1Qc7I", "entities/dGsPrxT/attributes/Identifiers/1CFAPVj3D/DataValidationStatusCode/1CFAPVnJT", "entities/dGsPrxT/attributes/WebsiteURL/2AD3QvWXv/DataValidationStatusCode/2AD3QvaoB", "entities/dGsPrxT/attributes/Identifiers/1bj28EtdX/Type/1bj28F2A3", "entities/dGsPrxT/attributes/Identifiers/1CFAPY8EF/DataValidationStatusCode/1CFAPYCUV", "entities/dGsPrxT/attributes/Identifiers/1CFAPVj3D/EffectiveEndDate/1CFAPVrZj", "entities/dGsPrxT/attributes/Identifiers/1vigEGOIf/ID/1vigEGb5R", "entities/dGsPrxT/attributes/MatchLastNames/1CFAPYXnn", "entities/dGsPrxT/attributes/Identifiers/1CFAPTFbv/Status/1CFAPTJsB", "entities/dGsPrxT/attributes/Identifiers/1CFAPVj3D/ID/1CFAPW4MV", "entities/dGsPrxT/attributes/Email/gOz1QGo0/Email/gOz1QTam", "entities/dGsPrxT/attributes/Identifiers/1wWCim6dv", "entities/dGsPrxT/attributes/Identifiers/1CFAPTFbv/EffectiveEndDate/1CFAPUUKZ", "entities/dGsPrxT/attributes/Identifiers/1bj28EtdX/DataValidationStatusCode/1bj28Extn", "entities/dGsPrxT/attributes/Email/25i0Z8MZW/DataValidationStatusCode/25i0Z8Qpm", "entities/dGsPrxT/attributes/CountryCode/1CFAPwXJr", "entities/dGsPrxT/attributes/Identifiers/1bj28EtdX", "entities/dGsPrxT/attributes/MiddleName/2AD3QvSHf", "entities/dGsPrxT/attributes/Email/gOz1QGo0/EffectiveStartDate/gOz1QgNY", "entities/dGsPrxT/attributes/Email/1CFAPZdzv", "entities/dGsPrxT/attributes/Identifiers/1CFAPRjqF/Type/1CFAPS59X", "entities/dGsPrxT/attributes/Identifiers/1CFAPVAx9/EffectiveEndDate/1CFAPVNjv", "entities/dGsPrxT/attributes/Identifiers/25i0Z9KF8/EffectiveEndDate/25i0Z9X1u", "entities/dGsPrxT/attributes/Education/WQ79wtyc/EffectiveStartDate/WQ79xWKw", "entities/dGsPrxT/attributes/IMSExponentFlag/1CFAPROWx", "entities/dGsPrxT/attributes/WebsiteURL/2AD3QvWXv/URL/2AD3Qvw7T", "entities/dGsPrxT/attributes/Identifiers/1CFAPRjqF/Status/1CFAPRo6V", "entities/dGsPrxT/attributes/Education/WQ79wtyc", "entities/dGsPrxT/attributes/WebsiteURL/2AD3QvWXv", "entities/dGsPrxT/attributes/Email/gOz1QGo0/DataValidationStatusCode/gOz1QL4G", "entities/dGsPrxT/attributes/SourceBlockStatus/1CFAPakC3", "entities/dGsPrxT/attributes/Identifiers/1CFAPUlNb/Type/1CFAPUyAN", "entities/dGsPrxT/attributes/MatchFirstNames/1CFAPwba7", "entities/dGsPrxT/attributes/Name/1vigEG2zN", "entities/dGsPrxT/attributes/Identifiers/1vigEGOIf", "entities/dGsPrxT/attributes/WebsiteURL/2AD3QvWXv/Type/2AD3Qvf4R", "entities/dGsPrxT/attributes/Identifiers/1CFAPWkz5", "entities/dGsPrxT/attributes/Identifiers/1CFAPVAx9/ID/1CFAPVaWh", "entities/dGsPrxT/attributes/Identifiers/1vigEGOIf/Status/1vigEGSYv", "entities/dGsPrxT/attributes/DataValidationStatusCode/1CFAPRKGh", "entities/dGsPrxT/attributes/Identifiers/1bj28EU3z/ID/1bj28El71", "entities/dGsPrxT/attributes/FirstName/1CFAPwT3b", "entities/dGsPrxT/attributes/Identifiers/1CFAPY8EF/EffectiveEndDate/1CFAPYGkl", "entities/dGsPrxT/attributes/Education/WQ79wtyc/GraduationYear/WQ79x2V8", "entities/dGsPrxT/attributes/HCPReferenceId/2wfPvdo4i", "entities/dGsPrxT/attributes/Identifiers/1CFAPRjqF/EffectiveStartDate/1CFAPS9Pn", "entities/dGsPrxT/attributes/Identifiers/1CFAPY8EF", "entities/dGsPrxT/attributes/Identifiers/1CFAPRjqF/DataValidationStatusCode/1CFAPRsMl", "entities/dGsPrxT/attributes/Identifiers/1CFAPTFbv/SubType/1CFAPUHXn", "entities/dGsPrxT/attributes/Identifiers/1CFAPVj3D/Type/1CFAPVvpz", "entities/dGsPrxT/attributes/Identifiers/1CFAPXieh/Type/1CFAPXvRT", "entities/dGsPrxT/attributes/Specialities/1CFAPxDwR/EffectiveEndDate/1CFAPxMSx", "entities/dGsPrxT/attributes/Email/1CFAPZdzv/EffectiveEndDate/1CFAPZv2x", "entities/dGsPrxT/attributes/Education/WQ79wtyc/EducationLevel/WQ79xS4g", "entities/dGsPrxT/attributes/Specialities/1CFAPxDwR/DataValidationStatusCode/1CFAPxICh", "entities/dGsPrxT/attributes/Identifiers/1CFAPWkz5/ID/1CFAPXAYd", "entities/dGsPrxT/attributes/LastName/1CFAPYoqp", "entities/dGsPrxT/attributes/PreferredName/1CFAPZ1db", "entities/dGsPrxT/attributes/Identifiers/1bj28EtdX/SubType/1bj28F6QJ", "entities/dGsPrxT/attributes/WebsiteURL/2AD3QvWXv/EffectiveEndDate/2AD3QvjKh", "entities/dGsPrxT/attributes/Identifiers/1CFAPUlNb/EffectiveStartDate/1CFAPV2Qd", "entities/dGsPrxT/attributes/Identifiers/1bj28EtdX/EffectiveEndDate/1bj28FAgZ", "entities/dGsPrxT/attributes/Email/gOz1QGo0/Type/gOz1QPKW", "entities/dGsPrxT/attributes/Identifiers/1CFAPXieh/EffectiveEndDate/1CFAPXrBD", "entities/dGsPrxT/attributes/Identifiers/1CFAPTFbv/EffectiveStartDate/1CFAPTavD", "entities/dGsPrxT/attributes/Identifiers/1CFAPTFbv/DataValidationStatusCode/1CFAPTO8R", "entities/dGsPrxT/attributes/Identifiers/1bj28EU3z/EffectiveStartDate/1bj28EpNH", "entities/dGsPrxT/attributes/Specialities/1CFAPwk6d/Rank/1CFAPwsd9", "entities/dGsPrxT/attributes/Identifiers/1wWCim6dv/DataValidationStatusCode/1wWCimFAR", "entities/dGsPrxT/attributes/Identifiers/1CFAPRjqF/ID/1CFAPSDg3", "entities/dGsPrxT/attributes/Identifiers/1CFAPUlNb", "entities/dGsPrxT/attributes/Identifiers/1wWCim6dv/Type/1wWCimJQh", "entities/dGsPrxT/attributes/Specialities/1CFAPwk6d/EffectiveEndDate/1CFAPwwtP", "entities/dGsPrxT/attributes/Specialities/1CFAPwk6d/Specialty/1CFAPx9gB", "entities/dGsPrxT/attributes/HCPUniqueId/1CFCnD7VD", "entities/dGsPrxT/attributes/Identifiers/1CFAPRjqF/SubType/1CFAPSHwJ", "entities/dGsPrxT/attributes/Identifiers/1bj28EtdX/ID/1bj28FEwp", "entities/dGsPrxT/attributes/Education/WQ79wtyc/Rank/WQ79xNoQ", "entities/dGsPrxT/attributes/OriginalSource/1CFAPRfZz", "entities/dGsPrxT/attributes/Email/1CFAPZAA7/Type/1CFAPZVTP", "entities/dGsPrxT/attributes/ActiveFlag/1CFAPRbJj", "entities/dGsPrxT/attributes/Email/1CFAPZAA7/EffectiveEndDate/1CFAPZRD9", "entities/dGsPrxT/attributes/Identifiers/1CFAPTFbv/EffectiveStartDate/1CFAPU91H", "entities/dGsPrxT/attributes/Identifiers/1CFAPVAx9/SubType/1CFAPVemx", "entities/dGsPrxT/attributes/WinnerFlag/2D5ETlsny", "entities/dGsPrxT/attributes/Identifiers/1CFAPTFbv/EffectiveEndDate/1CFAPTSOh", "entities/dGsPrxT/attributes/Specialities/1CFAPxDwR/Specialty/1CFAPxZFj", "entities/dGsPrxT/attributes/Email/25i0Z8MZW/EffectiveEndDate/25i0Z8dcY", "entities/dGsPrxT/attributes/Email/1CFAPZdzv/EffectiveStartDate/1CFAPa3ZT", "entities/dGsPrxT/attributes/Identifiers/1CFAPWkz5/Type/1CFAPX227", "entities/dGsPrxT/attributes/Identifiers/1CFAPVAx9", "entities/dGsPrxT/attributes/Email/gOz1QGo0", "entities/dGsPrxT/attributes/Identifiers/1wWCim6dv/EffectiveEndDate/1wWCimRxD", "entities/dGsPrxT/attributes/EffectiveEndDate/1CFAPafvn", "entities/dGsPrxT/attributes/Gender/1CFAPwOnL", "entities/dGsPrxT/attributes/Identifiers/1bj28EtdX/EffectiveStartDate/1bj28FJD5", "entities/dGsPrxT/attributes/Email/25i0Z8MZW/Rank/25i0Z8hso", "entities/dGsPrxT/attributes/Identifiers/1CFAPXieh/EffectiveStartDate/1CFAPXzhj", "entities/dGsPrxT/attributes/Identifiers/1CFAPWkz5/SubType/1CFAPXEot", "entities/dGsPrxT/attributes/Email/1CFAPZdzv/Type/1CFAPZzJD", "entities/dGsPrxT/attributes/Identifiers/1CFAPVAx9/Type/1CFAPVS0B", "entities/dGsPrxT/attributes/Identifiers/1CFAPUlNb/ID/1CFAPV6gt", "entities/dGsPrxT/attributes/Identifiers/1bj28EU3z/DataValidationStatusCode/1bj28EYKF", "entities/dGsPrxT/attributes/WebsiteURL/2AD3QvWXv/Rank/2AD3Qvnax", "entities/dGsPrxT/attributes/MatchIdentifiers/1CFAPabfX", "entities/dGsPrxT/attributes/Email/25i0Z8MZW/Type/25i0Z8V62", "entities/dGsPrxT/attributes/ClassificationCode/1CFAPRSnD", "entities/dGsPrxT/attributes/Identifiers/1CFAPWkz5/EffectiveStartDate/1CFAPX6IN", "entities/dGsPrxT/attributes/Email/1CFAPZAA7/DataValidationStatusCode/1CFAPZEQN", "entities/dGsPrxT/attributes/Identifiers/1wWCim6dv/DeactivationDate/1wWCimaTj", "entities/dGsPrxT/attributes/Identifiers/1CFAPWkz5/Status/1CFAPWpFL", "entities/dGsPrxT/attributes/Identifiers/25i0Z9KF8", "entities/dGsPrxT/attributes/Education/WQ79wtyc/TypeofEducation/WQ79wyEs", "entities/dGsPrxT/attributes/Email/1CFAPZAA7", "entities/dGsPrxT/attributes/Identifiers/1CFAPUlNb/DataValidationStatusCode/1CFAPUpdr", "entities/dGsPrxT/attributes/Identifiers/1CFAPWkz5/DataValidationStatusCode/1CFAPWtVb", "entities/dGsPrxT/attributes/Identifiers/1wWCim6dv/SubType/1wWCimNgx", "entities/dGsPrxT/attributes/Identifiers/25i0Z9KF8/DataValidationStatusCode/25i0Z9OVO"],
+            "singleAttributeUpdateDates": {
+                "entities/dGsPrxT/attributes/HCPReferenceId/2wfPvdo4i": "2020-11-22T04:47:11.702Z",
+                "entities/dGsPrxT/attributes/HCPUniqueId/1CFCnD7VD": "2020-11-22T04:47:11.702Z"
+            }
+        }]
+    },
+    "endObject": {
+        "type": "configuration/entityTypes/HCO",
+        "objectURI": "entities/YwNPpJo",
+        "label": "Charlotte Eye Ear Nose And Throat Associates PA-Matthews",
+        "directionalLabel": "parent HCO",
+        "crosswalks": [{
+            "uri": "entities/YwNPpJo/crosswalks/ihvOXTSi",
+            "type": "configuration/sources/CODS",
+            "sourceTable": "CODS.HCO",
+            "value": "1NVFNTGZNT",
+            "reltioLoadDate": "2021-05-26T12:04:39.022Z",
+            "createDate": "2017-11-02T04:58:22.605Z",
+            "updateDate": "2017-11-02T04:58:22.605Z",
+            "attributes": ["entities/YwNPpJo/attributes/Source/ihvOTcmG", "entities/YwNPpJo/attributes/Specialities/y7hThnm7/EffectiveEndDate/y7hTi0Yt", "entities/YwNPpJo/attributes/Specialities/ihvOWVn6/EffectiveEndDate/ihvOWiZs", "entities/YwNPpJo/attributes/Specialities/y7hTilRj/EffectiveEndDate/y7hTiyEV", "entities/YwNPpJo/attributes/DataValidationStatusCode/ihvORlhI", "entities/YwNPpJo/attributes/Specialities/y7hTilRj/DataValidationStatusCode/y7hTityF", "entities/YwNPpJo/attributes/HCOType/y7hTjrdr", "entities/YwNPpJo/attributes/Identifiers/17nvG8zky", "entities/YwNPpJo/attributes/Identifiers/y7hTl6MV/Type/y7hTlEt1", "entities/YwNPpJo/attributes/Identifiers/17nvG8zky/MergeDate/17nvG9CXk", "entities/YwNPpJo/attributes/WebsiteURL/y7hTpZPH/EffectiveStartDate/y7hTpuiZ", "entities/YwNPpJo/attributes/Identifiers/y7hTl6MV", "entities/YwNPpJo/attributes/Specialities/y7hThnm7/SpecialtyType/y7hTi4p9", "entities/YwNPpJo/attributes/MatchIdentifiers/ihvOTlIm", "entities/YwNPpJo/attributes/Specialities/ihvOWVn6/EffectiveStartDate/ihvOWmq8", "entities/YwNPpJo/attributes/Identifiers/17nvG8aBQ", "entities/YwNPpJo/attributes/Specialities/y7hThnm7", "entities/YwNPpJo/attributes/WebsiteURL/y7hTpZPH/URL/y7hTpyyp", "entities/YwNPpJo/attributes/WebsiteURL/y7hTpZPH", "entities/YwNPpJo/attributes/Identifiers/17nvG8aBQ/Type/17nvG8eRg", "entities/YwNPpJo/attributes/Specialities/ihvOWVn6/DataValidationStatusCode/ihvOWa3M", "entities/YwNPpJo/attributes/EffectiveStartDate/ihvORyU4", "entities/YwNPpJo/attributes/Specialities/y7hTilRj/SpecialtyType/y7hTj2Ul", "entities/YwNPpJo/attributes/Specialities/y7hTilRj", "entities/YwNPpJo/attributes/Identifiers/17nvG8zky/ID/17nvG9Go0", "entities/YwNPpJo/attributes/Specialities/ihvOWVn6/Specialty/ihvOWvMe", "entities/YwNPpJo/attributes/SourceBlockStatus/ihvOTtpI", "entities/YwNPpJo/attributes/Specialities/y7hThnm7/EffectiveStartDate/y7hTiDLf", "entities/YwNPpJo/attributes/AlternateName/y7hTh79X", "entities/YwNPpJo/attributes/Specialities/y7hTilRj/EffectiveStartDate/y7hTjB1H", "entities/YwNPpJo/attributes/DoingBusinessAsName/y7hTg5Df", "entities/YwNPpJo/attributes/Specialities/y7hTilRj/Rank/y7hTj6l1", "entities/YwNPpJo/attributes/Identifiers/17nvG8myC", "entities/YwNPpJo/attributes/WebsiteURL/y7hTpZPH/DataValidationStatusCode/y7hTpdfX", "entities/YwNPpJo/attributes/HCOUniqueId/ihvkiJjk", "entities/YwNPpJo/attributes/Identifiers/17nvG8zky/Type/17nvG98HU", "entities/YwNPpJo/attributes/Identifiers/17nvG8myC/Type/17nvG8rES", "entities/YwNPpJo/attributes/TrainingAccountIndicator/ihvOWNGa", "entities/YwNPpJo/attributes/Identifiers/y7hTl6MV/ID/y7hTlaCJ", "entities/YwNPpJo/attributes/WebsiteURL/y7hTpZPH/Type/y7hTphvn", "entities/YwNPpJo/attributes/CountryCode/ihvOWRWq", "entities/YwNPpJo/attributes/Identifiers/17nvG8myC/ID/17nvG8vUi", "entities/YwNPpJo/attributes/Specialities/ihvOWVn6/SpecialtyType/ihvOWr6O", "entities/YwNPpJo/attributes/HCOReferenceId/1KTQof7Ot", "entities/YwNPpJo/attributes/Name/y7hTjj7L", "entities/YwNPpJo/attributes/EffectiveEndDate/y7hTgDkB", "entities/YwNPpJo/attributes/OriginalSource/ihvOS70a", "entities/YwNPpJo/attributes/WebsiteURL/y7hTpZPH/Rank/y7hTpqSJ", "entities/YwNPpJo/attributes/Specialities/y7hThnm7/Rank/y7hTi95P", "entities/YwNPpJo/attributes/WinnerFlag/17nvG9L4G", "entities/YwNPpJo/attributes/Specialities/y7hThnm7/Specialty/y7hThs2N", "entities/YwNPpJo/attributes/Specialities/ihvOWVn6", "entities/YwNPpJo/attributes/StatusCode/y7hTjaap", "entities/YwNPpJo/attributes/Identifiers/17nvG8aBQ/ID/17nvG8ihw", "entities/YwNPpJo/attributes/WebsiteURL/y7hTpZPH/EffectiveEndDate/y7hTpmC3", "entities/YwNPpJo/attributes/ActiveFlag/y7hTjS4J", "entities/YwNPpJo/attributes/MatchNames/y7hTgdJj", "entities/YwNPpJo/attributes/Specialities/y7hTilRj/Specialty/y7hTiphz", "entities/YwNPpJo/attributes/Identifiers/17nvG8zky/Status/17nvG941E", "entities/YwNPpJo/attributes/Specialities/y7hThnm7/DataValidationStatusCode/y7hThwId", "entities/YwNPpJo/attributes/Specialities/ihvOWVn6/Rank/ihvOWeJc"],
+            "singleAttributeUpdateDates": {
+                "entities/YwNPpJo/attributes/Identifiers/17nvG8zky": "2021-05-26T12:04:39.022Z",
+                "entities/YwNPpJo/attributes/Identifiers/y7hTl6MV/Type/y7hTlEt1": "2021-05-26T12:04:39.022Z",
+                "entities/YwNPpJo/attributes/Identifiers/17nvG8zky/MergeDate/17nvG9CXk": "2021-05-26T12:04:39.022Z",
+                "entities/YwNPpJo/attributes/Identifiers/y7hTl6MV": "2021-05-26T12:04:39.022Z",
+                "entities/YwNPpJo/attributes/Identifiers/17nvG8aBQ": "2021-05-26T12:04:39.022Z",
+                "entities/YwNPpJo/attributes/Identifiers/17nvG8aBQ/Type/17nvG8eRg": "2021-05-26T12:04:39.022Z",
+                "entities/YwNPpJo/attributes/Identifiers/17nvG8zky/ID/17nvG9Go0": "2021-05-26T12:04:39.022Z",
+                "entities/YwNPpJo/attributes/Identifiers/17nvG8myC": "2021-05-26T12:04:39.022Z",
+                "entities/YwNPpJo/attributes/HCOUniqueId/ihvkiJjk": "2021-05-26T12:04:39.022Z",
+                "entities/YwNPpJo/attributes/Identifiers/17nvG8zky/Type/17nvG98HU": "2021-05-26T12:04:39.022Z",
+                "entities/YwNPpJo/attributes/Identifiers/17nvG8myC/Type/17nvG8rES": "2021-05-26T12:04:39.022Z",
+                "entities/YwNPpJo/attributes/Identifiers/y7hTl6MV/ID/y7hTlaCJ": "2021-05-26T12:04:39.022Z",
+                "entities/YwNPpJo/attributes/CountryCode/ihvOWRWq": "2021-05-26T12:04:39.022Z",
+                "entities/YwNPpJo/attributes/Identifiers/17nvG8myC/ID/17nvG8vUi": "2021-05-26T12:04:39.022Z",
+                "entities/YwNPpJo/attributes/HCOReferenceId/1KTQof7Ot": "2021-05-26T12:04:39.022Z",
+                "entities/YwNPpJo/attributes/OriginalSource/ihvOS70a": "2021-05-26T12:04:39.022Z",
+                "entities/YwNPpJo/attributes/WinnerFlag/17nvG9L4G": "2021-05-26T12:04:39.022Z",
+                "entities/YwNPpJo/attributes/Identifiers/17nvG8aBQ/ID/17nvG8ihw": "2021-05-26T12:04:39.022Z",
+                "entities/YwNPpJo/attributes/Identifiers/17nvG8zky/Status/17nvG941E": "2021-05-26T12:04:39.022Z"
+            }
+        }, {
+            "uri": "entities/YwNPpJo/crosswalks/y96oEHWF",
+            "type": "configuration/sources/CODS",
+            "sourceTable": "CODS.HCO",
+            "value": "1NVG1G5CMT",
+            "reltioLoadDate": "2021-05-26T12:20:17.360Z",
+            "createDate": "2017-11-02T05:51:59.095Z",
+            "updateDate": "2017-11-02T05:51:59.095Z",
+            "attributes": ["entities/YwNPpJo/attributes/Source/ihvOTcmG", "entities/YwNPpJo/attributes/Specialities/y7hThnm7/EffectiveEndDate/y96oGYAl", "entities/YwNPpJo/attributes/WebsiteURL/y96oFAvb/URL/y96oFaV9", "entities/YwNPpJo/attributes/MatchIdentifiers/y96oFj1f", "entities/YwNPpJo/attributes/Identifiers/1Gr1HWM8w", "entities/YwNPpJo/attributes/Identifiers/1Gr1HWYvi/Type/1Gr1HWdBy", "entities/YwNPpJo/attributes/Identifiers/1Gr1HWliU/ID/1Gr1HWuF0", "entities/YwNPpJo/attributes/DataValidationStatusCode/ihvORlhI", "entities/YwNPpJo/attributes/Specialities/y7hTilRj/DataValidationStatusCode/y7hTityF", "entities/YwNPpJo/attributes/HCOType/y7hTjrdr", "entities/YwNPpJo/attributes/Identifiers/y7hTl6MV/Type/y7hTlEt1", "entities/YwNPpJo/attributes/Identifiers/y7hTl6MV", "entities/YwNPpJo/attributes/Specialities/y7hThnm7/DataValidationStatusCode/y96oGTuV", "entities/YwNPpJo/attributes/Specialities/y7hThnm7/SpecialtyType/y7hTi4p9", "entities/YwNPpJo/attributes/WebsiteURL/y96oFAvb", "entities/YwNPpJo/attributes/Identifiers/D8Inepw4/ID/D8Inf2iq", "entities/YwNPpJo/attributes/Specialities/y7hThnm7", "entities/YwNPpJo/attributes/Identifiers/1Gr1HWYvi", "entities/YwNPpJo/attributes/Specialities/y7hTilRj/EffectiveStartDate/y96oGH7j", "entities/YwNPpJo/attributes/WebsiteURL/y96oFAvb/DataValidationStatusCode/y96oFFBr", "entities/YwNPpJo/attributes/EffectiveStartDate/ihvORyU4", "entities/YwNPpJo/attributes/Identifiers/1Gr1HWliU", "entities/YwNPpJo/attributes/Specialities/y7hTilRj/SpecialtyType/y7hTj2Ul", "entities/YwNPpJo/attributes/WebsiteURL/y96oFAvb/Rank/y96oFRyd", "entities/YwNPpJo/attributes/Identifiers/D8Inepw4/Type/D8IneySa", "entities/YwNPpJo/attributes/Specialities/y7hThnm7/EffectiveStartDate/y96oGkxX", "entities/YwNPpJo/attributes/Specialities/y7hTilRj", "entities/YwNPpJo/attributes/Specialities/y7hThnm7/Rank/y96oGghH", "entities/YwNPpJo/attributes/Identifiers/D8Inepw4/Status/D8IneuCK", "entities/YwNPpJo/attributes/WebsiteURL/y96oFAvb/EffectiveStartDate/y96oFWEt", "entities/YwNPpJo/attributes/Identifiers/1Gr1HWliU/Type/1Gr1HWpyk", "entities/YwNPpJo/attributes/EffectiveEndDate/y96oEYZH", "entities/YwNPpJo/attributes/ActiveFlag/y96oGtU3", "entities/YwNPpJo/attributes/SourceBlockStatus/ihvOTtpI", "entities/YwNPpJo/attributes/WebsiteURL/y96oFAvb/EffectiveEndDate/y96oFNiN", "entities/YwNPpJo/attributes/AlternateName/y7hTh79X", "entities/YwNPpJo/attributes/DoingBusinessAsName/y7hTg5Df", "entities/YwNPpJo/attributes/Identifiers/D8Inepw4", "entities/YwNPpJo/attributes/HCOReferenceId/1KTQofKBf", "entities/YwNPpJo/attributes/Specialities/y7hTilRj/Rank/y96oGCrT", "entities/YwNPpJo/attributes/TrainingAccountIndicator/ihvOWNGa", "entities/YwNPpJo/attributes/Identifiers/y7hTl6MV/ID/y7hTlaCJ", "entities/YwNPpJo/attributes/CountryCode/ihvOWRWq", "entities/YwNPpJo/attributes/Identifiers/1Gr1HWM8w/Type/1Gr1HWQPC", "entities/YwNPpJo/attributes/Name/y7hTjj7L", "entities/YwNPpJo/attributes/OriginalSource/ihvOS70a", "entities/YwNPpJo/attributes/Specialities/y7hThnm7/Specialty/y7hThs2N", "entities/YwNPpJo/attributes/Identifiers/1Gr1HWYvi/ID/1Gr1HWhSE", "entities/YwNPpJo/attributes/Specialities/y7hTilRj/EffectiveEndDate/y96oG4Kx", "entities/YwNPpJo/attributes/MatchNames/y7hTgdJj", "entities/YwNPpJo/attributes/WinnerFlag/2wuRTC2Xy", "entities/YwNPpJo/attributes/Specialities/y7hTilRj/Specialty/y7hTiphz", "entities/YwNPpJo/attributes/Identifiers/1Gr1HWM8w/ID/1Gr1HWUfS", "entities/YwNPpJo/attributes/WebsiteURL/y96oFAvb/Type/y96oFJS7", "entities/YwNPpJo/attributes/StatusCode/y96oH20Z", "entities/YwNPpJo/attributes/HCOUniqueId/y96oHJ3b"],
+            "singleAttributeUpdateDates": {
+                "entities/YwNPpJo/attributes/Identifiers/1Gr1HWM8w": "2021-05-26T12:20:17.360Z",
+                "entities/YwNPpJo/attributes/Identifiers/1Gr1HWYvi/Type/1Gr1HWdBy": "2021-05-26T12:20:17.360Z",
+                "entities/YwNPpJo/attributes/Identifiers/1Gr1HWliU/ID/1Gr1HWuF0": "2021-05-26T12:20:17.360Z",
+                "entities/YwNPpJo/attributes/Identifiers/y7hTl6MV/Type/y7hTlEt1": "2021-05-26T12:20:17.360Z",
+                "entities/YwNPpJo/attributes/Identifiers/y7hTl6MV": "2021-05-26T12:20:17.360Z",
+                "entities/YwNPpJo/attributes/Identifiers/D8Inepw4/ID/D8Inf2iq": "2021-05-26T12:20:17.360Z",
+                "entities/YwNPpJo/attributes/Identifiers/1Gr1HWYvi": "2021-05-26T12:20:17.360Z",
+                "entities/YwNPpJo/attributes/Identifiers/1Gr1HWliU": "2021-05-26T12:20:17.360Z",
+                "entities/YwNPpJo/attributes/Identifiers/D8Inepw4/Type/D8IneySa": "2021-05-26T12:20:17.360Z",
+                "entities/YwNPpJo/attributes/Identifiers/D8Inepw4/Status/D8IneuCK": "2021-05-26T12:20:17.360Z",
+                "entities/YwNPpJo/attributes/Identifiers/1Gr1HWliU/Type/1Gr1HWpyk": "2021-05-26T12:20:17.360Z",
+                "entities/YwNPpJo/attributes/Identifiers/D8Inepw4": "2021-05-26T12:20:17.360Z",
+                "entities/YwNPpJo/attributes/HCOReferenceId/1KTQofKBf": "2021-05-26T12:20:17.360Z",
+                "entities/YwNPpJo/attributes/Identifiers/y7hTl6MV/ID/y7hTlaCJ": "2021-05-26T12:20:17.360Z",
+                "entities/YwNPpJo/attributes/CountryCode/ihvOWRWq": "2021-05-26T12:20:17.360Z",
+                "entities/YwNPpJo/attributes/Identifiers/1Gr1HWM8w/Type/1Gr1HWQPC": "2021-05-26T12:20:17.360Z",
+                "entities/YwNPpJo/attributes/OriginalSource/ihvOS70a": "2021-05-26T12:20:17.360Z",
+                "entities/YwNPpJo/attributes/Identifiers/1Gr1HWYvi/ID/1Gr1HWhSE": "2021-05-26T12:20:17.360Z",
+                "entities/YwNPpJo/attributes/WinnerFlag/2wuRTC2Xy": "2021-05-26T12:20:17.360Z",
+                "entities/YwNPpJo/attributes/Identifiers/1Gr1HWM8w/ID/1Gr1HWUfS": "2021-05-26T12:20:17.360Z",
+                "entities/YwNPpJo/attributes/HCOUniqueId/y96oHJ3b": "2021-05-26T12:20:17.360Z"
+            }
+        }]
+    }
 }
-    
